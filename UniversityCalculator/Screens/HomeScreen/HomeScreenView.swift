@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  HomeScreenView.swift
 //  UniversityCalculator
 //
 //  Created by Wojciech Kudrynski on 11/08/2020.
@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct HomeScreenView: View {
     var body: some View {
-        Text("Hello, World!")
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct HomeScreenView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        HomeScreenView()
     }
 }
