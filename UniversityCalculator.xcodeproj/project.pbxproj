@@ -13,6 +13,13 @@
 		8971404A24E2B60E00FBB03B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8971404924E2B60E00FBB03B /* Assets.xcassets */; };
 		8971404D24E2B60E00FBB03B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8971404C24E2B60E00FBB03B /* Preview Assets.xcassets */; };
 		8971405024E2B60E00FBB03B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8971404E24E2B60E00FBB03B /* LaunchScreen.storyboard */; };
+		898A72C724E2BA320013BC34 /* Institution.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72C624E2BA320013BC34 /* Institution.swift */; };
+		898A72C924E2BAAA0013BC34 /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72C824E2BAAA0013BC34 /* Course.swift */; };
+		898A72CB24E2BAC00013BC34 /* Recrutation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72CA24E2BAC00013BC34 /* Recrutation.swift */; };
+		898A72CD24E2BF390013BC34 /* Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72CC24E2BF390013BC34 /* Subject.swift */; };
+		898A72CF24E2C28A0013BC34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72CE24E2C28A0013BC34 /* User.swift */; };
+		898A72D124E2C4C40013BC34 /* ExamResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72D024E2C4C40013BC34 /* ExamResult.swift */; };
+		898A72D324E2C67D0013BC34 /* DefinedSubjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 898A72D224E2C67D0013BC34 /* DefinedSubjects.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +31,13 @@
 		8971404C24E2B60E00FBB03B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8971404F24E2B60E00FBB03B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8971405124E2B60E00FBB03B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		898A72C624E2BA320013BC34 /* Institution.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Institution.swift; sourceTree = "<group>"; };
+		898A72C824E2BAAA0013BC34 /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		898A72CA24E2BAC00013BC34 /* Recrutation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recrutation.swift; sourceTree = "<group>"; };
+		898A72CC24E2BF390013BC34 /* Subject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subject.swift; sourceTree = "<group>"; };
+		898A72CE24E2C28A0013BC34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		898A72D024E2C4C40013BC34 /* ExamResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExamResult.swift; sourceTree = "<group>"; };
+		898A72D224E2C67D0013BC34 /* DefinedSubjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinedSubjects.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +72,8 @@
 			children = (
 				8971405824E2B67E00FBB03B /* Resources */,
 				8971405724E2B66A00FBB03B /* App */,
-				8971404724E2B60C00FBB03B /* ContentView.swift */,
+				898A72C424E2B98E0013BC34 /* Models */,
+				898A72C524E2B9AD0013BC34 /* Screens */,
 				8971405124E2B60E00FBB03B /* Info.plist */,
 				8971404B24E2B60E00FBB03B /* Preview Content */,
 			);
@@ -89,6 +104,28 @@
 				8971404924E2B60E00FBB03B /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		898A72C424E2B98E0013BC34 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				898A72CE24E2C28A0013BC34 /* User.swift */,
+				898A72D024E2C4C40013BC34 /* ExamResult.swift */,
+				898A72C624E2BA320013BC34 /* Institution.swift */,
+				898A72CA24E2BAC00013BC34 /* Recrutation.swift */,
+				898A72C824E2BAAA0013BC34 /* Course.swift */,
+				898A72CC24E2BF390013BC34 /* Subject.swift */,
+				898A72D224E2C67D0013BC34 /* DefinedSubjects.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		898A72C524E2B9AD0013BC34 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				8971404724E2B60C00FBB03B /* ContentView.swift */,
+			);
+			path = Screens;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +201,13 @@
 			files = (
 				8971404424E2B60C00FBB03B /* AppDelegate.swift in Sources */,
 				8971404624E2B60C00FBB03B /* SceneDelegate.swift in Sources */,
+				898A72D324E2C67D0013BC34 /* DefinedSubjects.swift in Sources */,
+				898A72CD24E2BF390013BC34 /* Subject.swift in Sources */,
+				898A72D124E2C4C40013BC34 /* ExamResult.swift in Sources */,
+				898A72CB24E2BAC00013BC34 /* Recrutation.swift in Sources */,
+				898A72CF24E2C28A0013BC34 /* User.swift in Sources */,
+				898A72C924E2BAAA0013BC34 /* Course.swift in Sources */,
+				898A72C724E2BA320013BC34 /* Institution.swift in Sources */,
 				8971404824E2B60C00FBB03B /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
