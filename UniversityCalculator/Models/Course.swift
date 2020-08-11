@@ -13,8 +13,12 @@ enum ModeType: String {
     case PartTime = "Part-Time"
 }
 
-struct Course {
-    let code: String?
+struct Course: Hashable {
+    static func == (lhs: Course, rhs: Course) -> Bool {
+        lhs.code == rhs.code
+    }
+    
+    let code: String
     let name: String
     let level: Int
     let department: String
@@ -23,3 +27,5 @@ struct Course {
     let description: String?
     let subjects: [Subject]
 }
+
+let exampleCourse = Course(code: "EI-NI", name: "Information Technology", level: 1, department: "Department of Electrotechnics, Automatics and Information Technology", mode: .PartTime, length: 8, description: "Information technology for everyone who is passionate in IT!", subjects: [exampleSubject, exampleSubject2, exampleSubject3])
