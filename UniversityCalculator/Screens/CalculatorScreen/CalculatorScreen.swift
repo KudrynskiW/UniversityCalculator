@@ -20,45 +20,52 @@ struct CalculatorScreen: View {
     var body: some View {
         VStack(alignment: .leading) {
             
-                
-            if(calculatorStep == 0) {
-                Text("Select \(firstTitle)")
-                    .font(.title)
+            VStack {
+                if(calculatorStep == 0) {
+                    Text("Select \(firstTitle)")
+                        .font(.title)
+                        .padding([.horizontal, .top])
+                    InstitutionListView(firstTitle: $firstTitle, selectedInstitution: $selectedInstitution, calculatorStep: $calculatorStep)
+                } else if(calculatorStep == 1) {
+                    Text("Select \(secondTitle)")
+                        .font(.title)
+                        .padding(.horizontal)
+                    RecrutationListView(selectedInstitution: $selectedInstitution, selectedRecrutation: $selectedRecrutation, secondTitle: $secondTitle, calculatorStep: $calculatorStep)
+                } else if(calculatorStep == 2) {
+                    Text("Select \(thirdTitle)")
+                        .font(.title)
+                        .padding(.horizontal)
+                    CourseListView(selectedRecrutation: $selectedRecrutation, selectedCourse: $selectedCourse, thirdTitle: $thirdTitle, calculatorStep: $calculatorStep)
+                }
+            }.cornerRadius(50.0)
+            
+            
+            VStack {
+                Text(selectedInstitution == nil ? firstTitle : firstTitle + " " + selectedInstitution!.name)
+                    .font(.body)
+                    .bold()
                     .padding(.horizontal)
-                InstitutionListView(firstTitle: $firstTitle, selectedInstitution: $selectedInstitution, calculatorStep: $calculatorStep)
-            } else if(calculatorStep == 1) {
-                Text("Select \(secondTitle)")
-                .font(.title)
-                .padding(.horizontal)
-                RecrutationListView(selectedInstitution: $selectedInstitution, selectedRecrutation: $selectedRecrutation, secondTitle: $secondTitle, calculatorStep: $calculatorStep)
-            } else if(calculatorStep == 2) {
-                Text("Select \(thirdTitle)")
-                .font(.title)
-                .padding(.horizontal)
-                CourseListView(selectedRecrutation: $selectedRecrutation, selectedCourse: $selectedCourse, thirdTitle: $thirdTitle, calculatorStep: $calculatorStep)
+                    .multilineTextAlignment(.leading)
+                    .animation(Animation.linear(duration: 0.5))
+                    .fixedSize()
+                
+                Text(calculatorStep < 1 ? "" : selectedRecrutation == nil ? secondTitle : secondTitle + " " + selectedRecrutation!.yearFrom + "/" + selectedRecrutation!.yearTo)
+                    .font(.body)
+                    .bold()
+                    .padding([.horizontal])
+                    .animation(Animation.linear(duration: 0.5))
+                    .fixedSize()
+                
+                Text(calculatorStep < 2 ? "" : selectedCourse == nil ? thirdTitle : "\(thirdTitle) (\(selectedCourse!.mode.rawValue)) \(selectedCourse!.name)")
+                    .font(.body)
+                    .bold()
+                    .padding([.horizontal])
+                    .animation(Animation.linear(duration: 0.5))
+                    .fixedSize()
             }
-            
-            Text(selectedInstitution == nil ? firstTitle : firstTitle + " " + selectedInstitution!.name)
-                .font(.body)
-                .bold()
-                .padding(.horizontal)
-                .multilineTextAlignment(.leading)
-                .animation(Animation.linear(duration: 0.5))
-                .fixedSize()
-            
-            Text(calculatorStep < 1 ? "" : selectedRecrutation == nil ? secondTitle : secondTitle + " " + selectedRecrutation!.yearFrom + "/" + selectedRecrutation!.yearTo)
-                .font(.body)
-                .bold()
-                .padding([.horizontal])
-                .animation(Animation.linear(duration: 0.5))
-                .fixedSize()
-            
-            Text(calculatorStep < 2 ? "" : selectedCourse == nil ? thirdTitle : "\(thirdTitle) (\(selectedCourse!.mode.rawValue)) \(selectedCourse!.name)")
-                .font(.body)
-                .bold()
-                .padding([.horizontal])
-                .animation(Animation.linear(duration: 0.5))
-                .fixedSize()
+            .padding(.vertical)
+            .frame(width: UIScreen.main.bounds.width)
+            .background(Color.blue)
             
             if(calculatorStep == 3) {
                 HStack {
@@ -73,7 +80,8 @@ struct CalculatorScreen: View {
                     Spacer()
                 }.padding(.vertical)
             }
-        }
+        }.edgesIgnoringSafeArea(.bottom)
+        .background(Color.blue)
     }
 }
 
