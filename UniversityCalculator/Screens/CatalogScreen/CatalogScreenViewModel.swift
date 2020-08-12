@@ -1,5 +1,5 @@
 //
-//  CalculatorScreenViewModel.swift
+//  CatalogScreenViewModel.swift
 //  UniversityCalculator
 //
 //  Created by Wojciech Kudrynski on 11/08/2020.

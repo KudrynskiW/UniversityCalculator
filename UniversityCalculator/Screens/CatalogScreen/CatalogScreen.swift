@@ -1,5 +1,5 @@
 //
-//  CalculatorScreen.swift
+//  CatalogScreen.swift
 //  UniversityCalculator
 //
 //  Created by Wojciech Kudrynski on 11/08/2020.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct CalculatorScreen: View {
+struct CatalogScreen: View {
     @State var calculatorStep = 0
     @State var firstTitle = "Institution: "
     @State var secondTitle = "Recrutation: "
@@ -29,19 +29,19 @@ struct CalculatorScreen: View {
                 } else if(calculatorStep == 1) {
                     Text("Select \(secondTitle)")
                         .font(.title)
-                        .padding(.horizontal)
+                        .padding([.horizontal, .top])
                     RecrutationListView(selectedInstitution: $selectedInstitution, selectedRecrutation: $selectedRecrutation, secondTitle: $secondTitle, calculatorStep: $calculatorStep)
                 } else if(calculatorStep == 2) {
                     Text("Select \(thirdTitle)")
                         .font(.title)
-                        .padding(.horizontal)
+                        .padding([.horizontal, .top])
                     CourseListView(selectedRecrutation: $selectedRecrutation, selectedCourse: $selectedCourse, thirdTitle: $thirdTitle, calculatorStep: $calculatorStep)
                 }
             }.cornerRadius(50.0)
             
             
             VStack {
-                Text(selectedInstitution == nil ? firstTitle : firstTitle + " " + selectedInstitution!.name)
+                Text(selectedInstitution == nil ? " " : firstTitle + " " + selectedInstitution!.name)
                     .font(.body)
                     .bold()
                     .padding(.horizontal)
@@ -49,45 +49,83 @@ struct CalculatorScreen: View {
                     .animation(Animation.linear(duration: 0.5))
                     .fixedSize()
                 
-                Text(calculatorStep < 1 ? "" : selectedRecrutation == nil ? secondTitle : secondTitle + " " + selectedRecrutation!.yearFrom + "/" + selectedRecrutation!.yearTo)
+                Text(calculatorStep < 1 ? " " : selectedRecrutation == nil ? " " : secondTitle + " " + selectedRecrutation!.yearFrom + "/" + selectedRecrutation!.yearTo)
                     .font(.body)
                     .bold()
                     .padding([.horizontal])
                     .animation(Animation.linear(duration: 0.5))
                     .fixedSize()
                 
-                Text(calculatorStep < 2 ? "" : selectedCourse == nil ? thirdTitle : "\(thirdTitle) (\(selectedCourse!.mode.rawValue)) \(selectedCourse!.name)")
+                Text(calculatorStep < 2 ? " " : selectedCourse == nil ? " " : "\(thirdTitle) (\(selectedCourse!.mode.rawValue)) \(selectedCourse!.name)")
                     .font(.body)
                     .bold()
                     .padding([.horizontal])
                     .animation(Animation.linear(duration: 0.5))
                     .fixedSize()
             }
-            .padding(.vertical)
+            .padding(calculatorStep == 3 ? .top : .vertical)
             .frame(width: UIScreen.main.bounds.width)
             .background(Color.blue)
             
             if(calculatorStep == 3) {
-                HStack {
-                    Spacer()
-                    
-                    Button(action: {
-                        
-                    }) {
-                        Text("Calculate")
+                VStack {
+                    List(selectedCourse!.subjects, id: \.self) { subject in
+                        Button(action: {
+                            
+                            
+                        }, label: {
+                            VStack(alignment: .leading) {
+                                Text(subject.name.rawValue)
+                                .font(.body)
+                                .bold()
+                                
+                                HStack {
+                                    Text("Base factor: \(FloatConverter.round(to: 1, for: subject.baseFactor))")
+                                    Spacer()
+                                    Text("Extended factor: \(FloatConverter.round(to: 1, for: subject.extendedFactor))")
+                                    Spacer()
+                                }
+                            }
+                            
+                        })
                     }
+                }
+                
+                VStack {
+                    Text("Selected Subjects: 1 of 3")
+                        .font(.body)
+                        .bold()
+                        .padding(.horizontal)
+                        .multilineTextAlignment(.leading)
+                        .animation(Animation.linear(duration: 0.5))
+                        .fixedSize()
                     
-                    Spacer()
-                }.padding(.vertical)
+                    Text("Calculate with saved Scores")
+                        .font(.body)
+                        .bold()
+                        .padding([.horizontal])
+                        .animation(Animation.linear(duration: 0.5))
+                        .fixedSize()
+                    
+                    Text("Calculate with new Scores")
+                        .font(.body)
+                        .bold()
+                        .padding([.horizontal])
+                        .animation(Animation.linear(duration: 0.5))
+                        .fixedSize()
+                }
+                .padding(.vertical)
+                .frame(width: UIScreen.main.bounds.width)
+                .background(Color.blue)
             }
         }.edgesIgnoringSafeArea(.bottom)
         .background(Color.blue)
     }
 }
 
-struct CalculatorScreen_Previews: PreviewProvider {
+struct CatalogScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CalculatorScreen()
+        CatalogScreen()
     }
 }
 
@@ -154,7 +192,7 @@ struct CourseListView: View {
                     HStack {
                         Text("Code: (\(course.code))")
                         Spacer()
-                        Text("Length: \(course.length)")
+                        Text("Semesters: \(course.length)")
                         Spacer()
                         Text("Level: \(course.level)")
                     }.padding(.top)
