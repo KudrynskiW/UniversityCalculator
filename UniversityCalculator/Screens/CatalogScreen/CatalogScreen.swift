@@ -36,6 +36,31 @@ struct CatalogScreen: View {
                         .font(.title)
                         .padding([.horizontal, .top])
                     CourseListView(selectedRecrutation: $selectedRecrutation, selectedCourse: $selectedCourse, thirdTitle: $thirdTitle, calculatorStep: $calculatorStep)
+                } else if(calculatorStep == 3) {
+                    Text("Subjects")
+                        .font(.title)
+                        .padding([.horizontal, .top])
+                    
+                    List(selectedCourse!.subjects, id: \.self) { subject in
+                        Button(action: {
+                            
+                            
+                        }, label: {
+                            VStack(alignment: .leading) {
+                                Text(subject.name.rawValue)
+                                    .font(.body)
+                                    .bold()
+                                
+                                HStack {
+                                    Text("Base factor: \(FloatConverter.round(to: 1, for: subject.baseFactor))")
+                                    Spacer()
+                                    Text("Extended factor: \(FloatConverter.round(to: 1, for: subject.extendedFactor))")
+                                    Spacer()
+                                }
+                            }
+                            
+                        })
+                    }
                 }
             }.cornerRadius(50.0)
             
@@ -59,65 +84,16 @@ struct CatalogScreen: View {
                 Text(calculatorStep < 2 ? " " : selectedCourse == nil ? " " : "\(thirdTitle) (\(selectedCourse!.mode.rawValue)) \(selectedCourse!.name)")
                     .font(.body)
                     .bold()
-                    .padding([.horizontal])
+                    .padding([.horizontal, .bottom])
                     .animation(Animation.linear(duration: 0.5))
                     .fixedSize()
+                
+                
             }
             .padding(calculatorStep == 3 ? .top : .vertical)
             .frame(width: UIScreen.main.bounds.width)
             .background(Color.blue)
             
-            if(calculatorStep == 3) {
-                VStack {
-                    List(selectedCourse!.subjects, id: \.self) { subject in
-                        Button(action: {
-                            
-                            
-                        }, label: {
-                            VStack(alignment: .leading) {
-                                Text(subject.name.rawValue)
-                                .font(.body)
-                                .bold()
-                                
-                                HStack {
-                                    Text("Base factor: \(FloatConverter.round(to: 1, for: subject.baseFactor))")
-                                    Spacer()
-                                    Text("Extended factor: \(FloatConverter.round(to: 1, for: subject.extendedFactor))")
-                                    Spacer()
-                                }
-                            }
-                            
-                        })
-                    }
-                }
-                
-                VStack {
-                    Text("Selected Subjects: 1 of 3")
-                        .font(.body)
-                        .bold()
-                        .padding(.horizontal)
-                        .multilineTextAlignment(.leading)
-                        .animation(Animation.linear(duration: 0.5))
-                        .fixedSize()
-                    
-                    Text("Calculate with saved Scores")
-                        .font(.body)
-                        .bold()
-                        .padding([.horizontal])
-                        .animation(Animation.linear(duration: 0.5))
-                        .fixedSize()
-                    
-                    Text("Calculate with new Scores")
-                        .font(.body)
-                        .bold()
-                        .padding([.horizontal])
-                        .animation(Animation.linear(duration: 0.5))
-                        .fixedSize()
-                }
-                .padding(.vertical)
-                .frame(width: UIScreen.main.bounds.width)
-                .background(Color.blue)
-            }
         }.edgesIgnoringSafeArea(.bottom)
         .background(Color.blue)
     }
