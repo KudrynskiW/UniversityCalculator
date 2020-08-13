@@ -13,10 +13,16 @@ enum InstitutionType: String {
     case UniversityOfTechnology = "University of Technology"
 }
 
-struct Institution {
+struct Institution: Hashable {
+    static func == (lhs: Institution, rhs: Institution) -> Bool {
+        lhs.name == rhs.name
+    }
+    
     let name: String
     let description: String?
     let type: InstitutionType
-    let website: String?
+    let website: URL?
     var recrutations: [Recrutation]
 }
+
+let exampleInstitution = Institution(name: "Poznan University of Technology", description: "This is a description", type: .UniversityOfTechnology, website: URL(string: "https://po.edu.pl"), recrutations: [exampleRecrutation])
