@@ -15,10 +15,38 @@ class CatalogScreenViewModel: ObservableObject {
     @Published var secondTitle = "Recrutation: "
     @Published var thirdTitle = "Course: "
     
-    @Published var selectedInstitution: Institution? = nil
-    @Published var selectedRecrutation: Recrutation? = nil
-    @Published var selectedCourse: Course? = nil
+    @Published var selectedInstitution: Institution? = nil {
+        didSet {
+            calculatorStep = 1
+            opacityForTables = 0.0
+        }
+    }
+    @Published var selectedRecrutation: Recrutation? = nil {
+        didSet {
+            calculatorStep = 2
+            opacityForTables = 0.0
+        }
+    }
+    @Published var selectedCourse: Course? = nil {
+        didSet {
+            calculatorStep = 3
+            opacityForTables = 0.0
+        }
+    }
     
     @Published var opacityForTables = 0.0
     @Published var opacityForButton = 0.0
+    
+    func prepareTitle() -> String {
+        switch calculatorStep {
+        case 1:
+            return "Select \(secondTitle)"
+        case 2:
+            return "Select \(thirdTitle)"
+        case 3:
+            return "Subjects:"
+        default:
+            return "Select \(firstTitle)"
+        }
+    }
 }
