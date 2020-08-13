@@ -6,6 +6,7 @@ Count your recrutation points without problem using this app :-)
 - MVVM
 
 ## Plans for future: 
+- Combine 
 - Core Data as persistent store
 - Institution (and related) data in Firebase
 - Notifications (maybe will consider also Push notifications)

@@ -13,7 +13,6 @@ struct CatalogScreen: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            
             VStack {
                 Text(viewModel.prepareTitle())
                     .foregroundColor(.white)
@@ -54,7 +53,6 @@ struct CatalogScreen: View {
                 }
             }.cornerRadius(50.0)
             
-            
             VStack {
                 BottomText(text: Text(viewModel.selectedInstitution == nil ? " " : viewModel.firstTitle + " " + viewModel.selectedInstitution!.name))
                 
@@ -81,7 +79,6 @@ struct CatalogScreen: View {
                         }
                     }
                 }
-
             }
             .padding(viewModel.calculatorStep == 3 ? .top : .vertical)
             .frame(width: UIScreen.main.bounds.width)
