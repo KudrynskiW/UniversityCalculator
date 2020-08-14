@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DefinedSubjects: String {
+enum DefinedSubjects: String, CaseIterable {
     case Biology = "Biology"
     case Chemistry = "Chemistry"
     case Physics = "Physics"
