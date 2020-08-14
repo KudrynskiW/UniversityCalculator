@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct CatalogScreen: View {
-    @ObservedObject var viewModel = CatalogScreenViewModel()
+    @ObservedObject var viewModel: CatalogScreenViewModel
     
     var body: some View {
         VStack(alignment: .leading) {

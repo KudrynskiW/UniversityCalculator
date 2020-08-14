@@ -9,8 +9,8 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-    @State var userName = "Guest"
-    @State var screenStep = 1
+    @State var userName = ""
+    @State var screenStep = 2
     
     init() {
         let customAppearance = UINavigationBarAppearance()
@@ -27,7 +27,21 @@ struct HomeScreenView: View {
             if(screenStep == 0) {
                 NameView(screenStep: $screenStep, userName: $userName)
             } else if(screenStep == 1) {
-                SubjectsView(userName: $userName)
+                SubjectsView(userName: $userName, screenStep: $screenStep)
+            } else if(screenStep == 2) {
+                VStack {
+                    Text("Final step and default home view")
+                    
+                    NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
+                        Text("OPEN CATALOG")
+                            .frame(width: UIScreen.main.bounds.width/2)
+                            .padding()
+                            .font(.headline)
+                            .background(Color.blue)
+                            .cornerRadius(20)
+                            .accentColor(.white)
+                    }
+                }.navigationBarTitle("Home", displayMode: .inline)
             }
         }
     }
@@ -46,7 +60,7 @@ struct NameView: View {
     var body: some View {
         VStack {
             Spacer()
-            Text("Hello \(userName)!")
+            Text("Hello Guest!")
                 .font(.title)
             Text("please, introduce yourself!")
             
@@ -67,14 +81,13 @@ struct NameView: View {
             Spacer()
             Spacer()
         }
-        .navigationBarTitle("Home", displayMode: .inline)
+        .navigationBarTitle("Initial Setup 1/2", displayMode: .inline)
     }
 }
 
 struct SubjectsView: View {
     @Binding var userName: String
-    
-
+    @Binding var screenStep: Int
     
     var body: some View {
         VStack {
@@ -88,11 +101,42 @@ struct SubjectsView: View {
             ScrollView {
                 ForEach(DefinedSubjects.allCases, id: \.self) { subject in
                     SubjectScoreView(subjectName: subject.rawValue)
-                }
+                }.frame(width: UIScreen.main.bounds.width)
             }
             
             Spacer()
-        }.navigationBarTitle("Home", displayMode: .inline)
+            HStack {
+                Spacer()
+                Button(action: {
+                    self.screenStep = 2
+                }) {
+                    Text("SKIP")
+                        .frame(width: UIScreen.main.bounds.width/6)
+                        .padding()
+                        .font(.headline)
+                        .background(Color.red)
+                        .cornerRadius(20)
+                        .accentColor(.white)
+                }
+                
+                Spacer()
+                
+                Button(action: {
+                    self.screenStep = 2
+                }) {
+                    Text("DONE")
+                        .frame(width: UIScreen.main.bounds.width/2)
+                        .padding()
+                        .font(.headline)
+                        .background(Color.blue)
+                        .cornerRadius(20)
+                        .accentColor(.white)
+                }
+                
+                Spacer()
+            }
+            
+        }.navigationBarTitle("Initial Setup 2/2", displayMode: .inline)
     }
 }
 
@@ -110,10 +154,12 @@ struct SubjectScoreView: View {
                 self.detailsHidden.toggle()
             }) {
                 Text(subjectName)
+                    .font(.headline)
                     .bold()
             }
             
             if(!detailsHidden) {
+                VStack {
                 HStack {
                     Button(action: {
                         self.baseScoreEnabled.toggle()
@@ -140,6 +186,7 @@ struct SubjectScoreView: View {
                     
                     Stepper("Extended score: \(extendedScore)", value: $extendedScore, in: 30...100)
                         .disabled(!extendedScoreEnabled)
+                }
                 }
             }
         }.padding(10)

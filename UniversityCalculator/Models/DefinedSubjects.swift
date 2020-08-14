@@ -9,16 +9,16 @@
 import Foundation
 
 enum DefinedSubjects: String, CaseIterable {
+    case Polish = "Polish"
+    case Mathematics = "Mathematics"
+    case ForeignLanguage = "Foreign Language"
     case Biology = "Biology"
     case Chemistry = "Chemistry"
     case Physics = "Physics"
     case Geography = "Geography"
-    case History = "History"
     case InformationTechnology = "Information Technology"
-    case Polish = "Polish"
-    case Mathematics = "Mathematics"
-    case SocialStudies = "Social Studies"
-    case ForeignLanguage = "Foreign Language"
     case Philosophy = "Philosophy"
+    case SocialStudies = "Social Studies"
+    case History = "History"
     case HistoryOfMusic = "History of Music"
 }
