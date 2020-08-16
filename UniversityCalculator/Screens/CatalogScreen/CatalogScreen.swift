@@ -91,7 +91,7 @@ struct CatalogScreen: View {
 
 struct CatalogScreen_Previews: PreviewProvider {
     static var previews: some View {
-        CatalogScreen()
+        CatalogScreen(viewModel: CatalogScreenViewModel())
     }
 }
 

@@ -10,38 +10,44 @@ import SwiftUI
 
 struct HomeScreenView: View {
     @State var userName = ""
-    @State var screenStep = 2
+    @State var screenStep = 0
     
     init() {
         let customAppearance = UINavigationBarAppearance()
         customAppearance.configureWithOpaqueBackground()
         customAppearance.backgroundColor = .blue
         customAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-               
+        
         UINavigationBar.appearance().standardAppearance = customAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = customAppearance
     }
     
     var body: some View {
         NavigationView {
-            if(screenStep == 0) {
-                NameView(screenStep: $screenStep, userName: $userName)
-            } else if(screenStep == 1) {
-                SubjectsView(userName: $userName, screenStep: $screenStep)
-            } else if(screenStep == 2) {
-                VStack {
-                    Text("Final step and default home view")
-                    
-                    NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
-                        Text("OPEN CATALOG")
-                            .frame(width: UIScreen.main.bounds.width/2)
-                            .padding()
-                            .font(.headline)
-                            .background(Color.blue)
-                            .cornerRadius(20)
-                            .accentColor(.white)
-                    }
-                }.navigationBarTitle("Home", displayMode: .inline)
+            VStack {
+                if(screenStep == 0) {
+                    NameView(screenStep: $screenStep, userName: $userName)
+                } else if(screenStep == 1) {
+                    SubjectsView(userName: $userName, screenStep: $screenStep)
+                } else if(screenStep == 2) {
+                    VStack {
+                        Text("Final step and default home view")
+                        
+                        NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
+                            Text("OPEN CATALOG")
+                                .frame(width: UIScreen.main.bounds.width/2)
+                                .padding()
+                                .font(.headline)
+                                .background(Color.blue)
+                                .cornerRadius(20)
+                                .accentColor(.white)
+                        }
+                    }.navigationBarTitle("Home", displayMode: .inline)
+                }
+                
+                if(screenStep < 2) {
+                    BottomButtons(screenStep: $screenStep)
+                }
             }
         }
     }
@@ -70,15 +76,6 @@ struct NameView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 20).stroke(lineWidth: 2).foregroundColor(.blue)
             )
-            
-            Button(action: {
-                self.screenStep = 1
-            }) {
-                Image(systemName: "arrow.right.circle.fill")
-                    .font(.largeTitle)
-            }.padding()
-            
-            Spacer()
             Spacer()
         }
         .navigationBarTitle("Initial Setup 1/2", displayMode: .inline)
@@ -104,46 +101,14 @@ struct SubjectsView: View {
                 }.frame(width: UIScreen.main.bounds.width)
             }
             
-            Spacer()
-            HStack {
-                Spacer()
-                Button(action: {
-                    self.screenStep = 2
-                }) {
-                    Text("SKIP")
-                        .frame(width: UIScreen.main.bounds.width/6)
-                        .padding()
-                        .font(.headline)
-                        .background(Color.red)
-                        .cornerRadius(20)
-                        .accentColor(.white)
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    self.screenStep = 2
-                }) {
-                    Text("DONE")
-                        .frame(width: UIScreen.main.bounds.width/2)
-                        .padding()
-                        .font(.headline)
-                        .background(Color.blue)
-                        .cornerRadius(20)
-                        .accentColor(.white)
-                }
-                
-                Spacer()
-            }
-            
         }.navigationBarTitle("Initial Setup 2/2", displayMode: .inline)
     }
 }
 
 struct SubjectScoreView: View {
     @State var subjectName: String
-    @State var baseScore: Int = 30
-    @State var extendedScore: Int = 30
+    @State var baseScore: Float = 50
+    @State var extendedScore: Float = 50
     
     @State var detailsHidden: Bool = true
     @State var baseScoreEnabled: Bool = false
@@ -156,6 +121,7 @@ struct SubjectScoreView: View {
                 Text(subjectName)
                     .font(.headline)
                     .bold()
+                    .fixedSize()
             }
             
             if(!detailsHidden) {
@@ -169,10 +135,13 @@ struct SubjectScoreView: View {
                             .foregroundColor(baseScoreEnabled ? .green : .gray)
                     }
                     
-                    Stepper("Base score: \(baseScore)", value: $baseScore, in: 30...100)
+                    Stepper("Base score: \(Int(baseScore))", value: $baseScore, in: 0...100)
                         .disabled(!baseScoreEnabled)
-                    
+      
                 }
+                    
+                    Slider(value: $baseScore, in: 0...100, step: 1.0)
+                        .disabled(!baseScoreEnabled)
                 
                 HStack {
                     Button(action: {
@@ -184,11 +153,53 @@ struct SubjectScoreView: View {
                     }
                     
                     
-                    Stepper("Extended score: \(extendedScore)", value: $extendedScore, in: 30...100)
+                    Stepper("Extended score: \(Int(extendedScore))", value: $extendedScore, in: 0...100)
                         .disabled(!extendedScoreEnabled)
                 }
+                    Slider(value: $extendedScore, in: 0...100, step: 1.0)
+                        .disabled(!extendedScoreEnabled)
                 }
             }
         }.padding(10)
+    }
+}
+
+struct BottomButtons: View {
+    @Binding var screenStep: Int
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button(action: {
+                self.screenStep = 2
+            }) {
+                Text("SKIP")
+                    .frame(width: UIScreen.main.bounds.width/6)
+                    .padding()
+                    .font(.headline)
+                    .background(Color.red)
+                    .cornerRadius(20)
+                    .accentColor(.white)
+            }
+            
+            Spacer()
+            
+            Button(action: {
+                self.screenStep += 1
+            }) {
+                HStack {
+                    Text("NEXT")
+                        .fixedSize()
+                    Image(systemName: "arrow.right.circle.fill")
+                }.frame(width: UIScreen.main.bounds.width/2)
+                    .padding()
+                    .font(.headline)
+                    .background(Color.blue)
+                    .cornerRadius(20)
+                    .accentColor(.white)
+            }
+            
+            Spacer()
+        }
     }
 }
