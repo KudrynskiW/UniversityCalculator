@@ -21,6 +21,8 @@ struct HomeScreenView: View {
         UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().standardAppearance = customAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = customAppearance
+        
+        viewModel.screenStep = 2
     }
     
     var body: some View {
@@ -31,13 +33,13 @@ struct HomeScreenView: View {
                 } else if(viewModel.screenStep == 1) {
                     SubjectsView(viewModel: viewModel)
                 } else if(viewModel.screenStep == 2) {
-                    DefaultHomeView()
+                    DefaultHomeView(viewModel: viewModel)
                 }
                 
                 if(viewModel.screenStep < 2) {
                     BottomButtonsView(viewModel: viewModel)
                 }
-            }
+            }.frame(width: UIScreen.main.bounds.width)
         }
     }
 }
@@ -122,12 +124,12 @@ struct SubjectScoreView: View {
                             .foregroundColor(baseScoreEnabled ? .green : .gray)
                     }
                     
-                    Stepper("Base score: \(Int(baseScore))", value: $baseScore, in: 0...100)
+                    Stepper("Base score: \(Int(baseScore))", value: $baseScore, in: 1...100)
                         .disabled(!baseScoreEnabled)
       
                 }
                     
-                    Slider(value: $baseScore, in: 0...100, step: 1.0)
+                    Slider(value: $baseScore, in: 1...100, step: 1.0)
                         .disabled(!baseScoreEnabled)
                 
                 HStack {
@@ -140,10 +142,10 @@ struct SubjectScoreView: View {
                     }
                     
                     
-                    Stepper("Extended score: \(Int(extendedScore))", value: $extendedScore, in: 0...100)
+                    Stepper("Extended score: \(Int(extendedScore))", value: $extendedScore, in: 1...100)
                         .disabled(!extendedScoreEnabled)
                 }
-                    Slider(value: $extendedScore, in: 0...100, step: 1.0)
+                    Slider(value: $extendedScore, in: 1...100, step: 1.0)
                         .disabled(!extendedScoreEnabled)
                 }
             }
@@ -181,7 +183,7 @@ struct BottomButtonsView: View {
                 }.frame(width: UIScreen.main.bounds.width/2)
                     .padding()
                     .font(.headline)
-                    .background(Color.blue)
+                    .background(Color(UIColor.blue))
                     .cornerRadius(20)
                     .accentColor(.white)
             }
@@ -192,19 +194,84 @@ struct BottomButtonsView: View {
 }
 
 struct DefaultHomeView: View {
+    @State var viewModel: HomeScreenViewModel
+    
     var body: some View {
         VStack {
-            Text("Final step and default home view")
+            Text("Hello, \(viewModel.user.name ?? "Guest")!")
+                .font(.title)
+                .bold()
+                .padding()
+                .fixedSize()
+            
+            if(!viewModel.user.examsResults.isEmpty) {
+                VStack(alignment: .leading) {
+                    Text("Saved Subject scores:")
+                        .font(.title)
+                    
+                    ForEach(viewModel.user.examsResults, id: \.self) { result in
+                        VStack(alignment: .leading) {
+                            Text(result.name.rawValue)
+                                .bold()
+                            HStack {
+                                Text("Base: \(result.baseResult)%")
+                                Spacer()
+                                if(result.extendedResult != 0) {
+                                    Text("Extended: \(result.extendedResult)%")
+                                }
+                                Spacer()
+                                Spacer()
+                            }
+                            
+                        }
+                    }
+                }
+                .padding()
+                .frame(width: UIScreen.main.bounds.width/1.1, alignment: .leading)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color(UIColor.blue), lineWidth: 2)
+                )
+            }
+            
+            if(!viewModel.user.savedCourses.isEmpty) {
+                VStack(alignment: .leading) {
+                    Text("Saved Courses:")
+                        .font(.title)
+                    
+                    ForEach(viewModel.user.savedCourses, id: \.self) { course in
+                        VStack(alignment: .leading) {
+                            Text("(\(course.mode.rawValue)) \(course.name)")
+                                .bold()
+                                .font(.headline)
+                            
+                            Text("Score: xxx")
+                        }
+                    }
+                }
+                .padding()
+                .frame(width: UIScreen.main.bounds.width/1.1, alignment: .leading)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color(UIColor.blue), lineWidth: 2)
+                )
+                    .padding()
+            }
+            
+
+            Spacer()
             
             NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
                 Text("OPEN CATALOG")
-                    .frame(width: UIScreen.main.bounds.width/2)
+                    .frame(width: UIScreen.main.bounds.width/1.5)
                     .padding()
                     .font(.headline)
-                    .background(Color.blue)
+                    .background(Color(UIColor.blue))
                     .cornerRadius(20)
                     .accentColor(.white)
             }
+            
+            Spacer()
         }.navigationBarTitle("Home", displayMode: .inline)
     }
 }

@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 class HomeScreenViewModel: ObservableObject {
+    @Published var user: User = exampleUser
     @Published var userName = ""
     @Published var screenStep = 0
 }

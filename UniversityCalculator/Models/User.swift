@@ -13,3 +13,6 @@ struct User {
     var examsResults: [ExamResult]
     var savedCourses: [Course]
 }
+
+let exampleUser = User(name: "Wojtek", examsResults: examResults, savedCourses: [exampleCourse])
+
