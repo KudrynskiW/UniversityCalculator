@@ -13,11 +13,8 @@ struct CatalogScreen: View {
     
     var body: some View {
         VStack(alignment: .leading) {
+            Text(" ").padding(.bottom)
             VStack {
-                Text(viewModel.prepareTitle())
-                    .foregroundColor(.white)
-                    .font(.title)
-                    .padding([.horizontal, .top])
                 if(viewModel.calculatorStep == 0) {
                     InstitutionListView(viewModel: viewModel)
                         .opacity(viewModel.opacityForTables)
@@ -51,7 +48,7 @@ struct CatalogScreen: View {
                         }
                     }
                 }
-            }.cornerRadius(50.0)
+            }
             
             VStack {
                 BottomText(text: Text(viewModel.selectedInstitution == nil ? " " : viewModel.firstTitle + " " + viewModel.selectedInstitution!.name))
@@ -82,10 +79,11 @@ struct CatalogScreen: View {
             }
             .padding(viewModel.calculatorStep == 3 ? .top : .vertical)
             .frame(width: UIScreen.main.bounds.width)
-            .background(Color.blue)
-            
-        }.edgesIgnoringSafeArea(.bottom)
-        .background(Color.blue)
+            .background(Color(UIColor.blue))
+            }
+        .edgesIgnoringSafeArea(.bottom)
+        .background(Color(UIColor.blue))
+        .navigationBarTitle(viewModel.prepareTitle())
     }
 }
 
@@ -103,7 +101,9 @@ struct InstitutionListView: View {
             Button(action: {
                 self.viewModel.selectedInstitution = institution
             }, label: {
-                Text(institution.name)
+                VStack {
+                    Text(institution.name)
+                }
             })
         }
     }

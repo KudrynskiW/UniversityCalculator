@@ -9,15 +9,16 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-    @State var userName = ""
-    @State var screenStep = 0
+    @ObservedObject var viewModel = HomeScreenViewModel()
     
     init() {
         let customAppearance = UINavigationBarAppearance()
         customAppearance.configureWithOpaqueBackground()
-        customAppearance.backgroundColor = .blue
+        customAppearance.backgroundColor = UIColor.blue
         customAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().tintColor = .white
         UINavigationBar.appearance().standardAppearance = customAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = customAppearance
     }
@@ -25,28 +26,16 @@ struct HomeScreenView: View {
     var body: some View {
         NavigationView {
             VStack {
-                if(screenStep == 0) {
-                    NameView(screenStep: $screenStep, userName: $userName)
-                } else if(screenStep == 1) {
-                    SubjectsView(userName: $userName, screenStep: $screenStep)
-                } else if(screenStep == 2) {
-                    VStack {
-                        Text("Final step and default home view")
-                        
-                        NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
-                            Text("OPEN CATALOG")
-                                .frame(width: UIScreen.main.bounds.width/2)
-                                .padding()
-                                .font(.headline)
-                                .background(Color.blue)
-                                .cornerRadius(20)
-                                .accentColor(.white)
-                        }
-                    }.navigationBarTitle("Home", displayMode: .inline)
+                if(viewModel.screenStep == 0) {
+                    NameView(viewModel: viewModel)
+                } else if(viewModel.screenStep == 1) {
+                    SubjectsView(viewModel: viewModel)
+                } else if(viewModel.screenStep == 2) {
+                    DefaultHomeView()
                 }
                 
-                if(screenStep < 2) {
-                    BottomButtons(screenStep: $screenStep)
+                if(viewModel.screenStep < 2) {
+                    BottomButtonsView(viewModel: viewModel)
                 }
             }
         }
@@ -60,8 +49,7 @@ struct HomeScreenView_Previews: PreviewProvider {
 }
 
 struct NameView: View {
-    @Binding var screenStep: Int
-    @Binding var userName: String
+    @State var viewModel: HomeScreenViewModel
     
     var body: some View {
         VStack {
@@ -70,7 +58,7 @@ struct NameView: View {
                 .font(.title)
             Text("please, introduce yourself!")
             
-            TextField("Enter your name", text: $userName)
+            TextField("Enter your name", text: $viewModel.userName)
                 .padding(10)
                 .frame(width: UIScreen.main.bounds.width/1.5)
                 .overlay(
@@ -83,14 +71,13 @@ struct NameView: View {
 }
 
 struct SubjectsView: View {
-    @Binding var userName: String
-    @Binding var screenStep: Int
+    @State var viewModel: HomeScreenViewModel
     
     var body: some View {
         VStack {
             Spacer()
             
-            Text("Its nice to meet you \(userName)!")
+            Text("Its nice to meet you \(viewModel.userName)!")
                 .font(.title)
             Text("do you want to fill your Subjects scores?")
             Text("(Click on the subject title)")
@@ -164,14 +151,14 @@ struct SubjectScoreView: View {
     }
 }
 
-struct BottomButtons: View {
-    @Binding var screenStep: Int
+struct BottomButtonsView: View {
+    @State var viewModel: HomeScreenViewModel
     
     var body: some View {
         HStack {
             Spacer()
             Button(action: {
-                self.screenStep = 2
+                self.viewModel.screenStep = 2
             }) {
                 Text("SKIP")
                     .frame(width: UIScreen.main.bounds.width/6)
@@ -185,7 +172,7 @@ struct BottomButtons: View {
             Spacer()
             
             Button(action: {
-                self.screenStep += 1
+                self.viewModel.screenStep += 1
             }) {
                 HStack {
                     Text("NEXT")
@@ -201,5 +188,23 @@ struct BottomButtons: View {
             
             Spacer()
         }
+    }
+}
+
+struct DefaultHomeView: View {
+    var body: some View {
+        VStack {
+            Text("Final step and default home view")
+            
+            NavigationLink(destination: CatalogScreen(viewModel: CatalogScreenViewModel())) {
+                Text("OPEN CATALOG")
+                    .frame(width: UIScreen.main.bounds.width/2)
+                    .padding()
+                    .font(.headline)
+                    .background(Color.blue)
+                    .cornerRadius(20)
+                    .accentColor(.white)
+            }
+        }.navigationBarTitle("Home", displayMode: .inline)
     }
 }

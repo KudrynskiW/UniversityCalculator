@@ -7,3 +7,9 @@
 //
 
 import Foundation
+import SwiftUI
+
+class HomeScreenViewModel: ObservableObject {
+    @Published var userName = ""
+    @Published var screenStep = 0
+}
